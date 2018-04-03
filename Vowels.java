@@ -1,31 +1,64 @@
+/* This class is used primarily as a means to find the amount of vowels
+* in a given string.
+* Completed by Dayan Jayasuriya, Nicki Lindstrom, and Riley Schaaf.
+* Last edited March 30, 10:29 pm by Nicki.
+*/
 public class Vowels{
 
   /**
-  * Method to find the number of vowels in a string (not including 'y').
-  * @param: aString any string.
-  * @return: numberVowels the number of vowels in the last letter of the current string.
-  * @return: numOfVowels(aString.substring(0, lastChar)) a recursive call to the Method
-  * with the current string, but the last letter being removed.
+  * Static method that finds the number of vowels in a given String.
+  * @param: toSearch a String.
+  * @return: (vowelCount + numOfVowels(newString)) recursive return giving the
+  * current vowel count in addition to all future vowel counts of the
+  * first character of the newString.
   */
-  public static int numOfVowels(String aString){
-    /*The method terminates if a null valued string is passed or once the string has
-    been fully iterated through and has a length of 0. Each recursion call shortens the
-    current string by removing the last letter until there are no longer any more letters. */
-    if(aString == null || aString.length() == 0) return 0;
-    int numberVowels = 0;
-    int lastChar = aString.length()-1;
-    if(aString.charAt(lastChar) =='a'||aString.charAt(lastChar)=='e'
-    ||aString.charAt(lastChar)=='i'||aString.charAt(lastChar)=='o'
-    ||aString.charAt(lastChar)=='u') numberVowels+=1;
-    /*The recursive call passes on the current string, as a substring, but with the
-    last letter excluded. This causes the string to shorten one character at a time
-    until it reaches 0 (the terminating condition).
-    The recursive call is successful because it checks the last letter and then removes
-    this letter until the string/substrings have entirely been checked. If the letter
-    checked and removed is a vowel, a value of 1 will be added by the current
-    recursion call to the sum of the previous recrusion calls when it return when it unwinds.
-    The previous recursion values, plus the current recursion call value will be summed
-    and returned when unwinding down the stack. */
-    return numberVowels + numOfVowels(aString.substring(0, lastChar));
+  public static int numOfVowels(String toSearch){
+    int vowelCount = 0;
+    String newString = " ";
+    /* Method will return 0 upon finding a null String or a String of zero
+    * length.
+    */
+    if(toSearch == null || toSearch.length()==0) return 0;
+    /* If the String has a length equal to 1, if it is a vowel return 1
+    * otherwise return 0. This provides an account of cases where the String returned
+    * is only length of 1.
+    */
+    if(toSearch.length()==1){
+      if(toSearch.equals("a") || toSearch.equals("e") || toSearch.equals("i")
+      || toSearch.equals("o")|| toSearch.equals("u")){
+      return 1;
+      }else{
+      return 0;
+      }
+    }
+    /* If the given String has a length greater than 1, check the character at
+    * index 0. If this is a vowel, increase the count by 1.
+    * Then remove the first character from the string by making a new substring
+    * that includes index 1 through the remainder of the string.
+    */
+    if(toSearch.length() >1){
+      char letter = toSearch.charAt(0);
+      if(letter == 'a' || letter == 'e' || letter =='i' || letter=='o'
+      || letter =='u'){
+        vowelCount+=1;
+      }
+      newString = toSearch.substring(1,toSearch.length());
+    }
+    /*
+    * The recursive call takes the new string and checks the number of vowels. If
+    * the string is length 0 it returns 0, if it is length 1 it checks to see
+    * if it is a vowel or not and adjusts the count accordingly. In this way,
+    * the recursive call takes us one step closer to the base step, whether import junit.framework.TestCase;
+    * be a return 1 or a return 0.
+    * This is always the case, as the string will continue to get shorter as the
+    * recursive calls are made due to the substring method.
+    * The result of the call is used to get the correct solution by adding calls
+    * to the stack and gradually removing them until the base case is met. Each call
+    * provides a count and sum of these counts is returned as the number of vowels.
+    */
+    return (vowelCount + numOfVowels(newString));
   }
+
+
+
 }
